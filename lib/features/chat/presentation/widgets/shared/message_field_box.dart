@@ -3,12 +3,17 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 class MessageFieldBox extends StatelessWidget {
-  const MessageFieldBox({super.key});
+  final ValueChanged<String> onValue;
+  const MessageFieldBox({super.key, required this.onValue});
 
   @override
   Widget build(BuildContext context) {
     final textController = TextEditingController();
     final focusNode = FocusNode();
+    final outlineInputBorder = UnderlineInputBorder(
+      borderSide: const BorderSide(color: Colors.transparent),
+      borderRadius: BorderRadius.circular(40)
+    );
     return TextFormField(
       onTapOutside: (event) {
         focusNode.unfocus();
@@ -16,17 +21,20 @@ class MessageFieldBox extends StatelessWidget {
       focusNode: focusNode,
       controller: textController,
       onFieldSubmitted: (value) {
-        debugPrint(value);
         textController.clear();
         focusNode.requestFocus();
+        onValue(value);
       },
       decoration: InputDecoration(
+        hintText: 'End your message with "?"',
+        enabledBorder: outlineInputBorder,
+        focusedBorder: outlineInputBorder,
         filled: true,
         suffixIcon: IconButton(
           onPressed: () {
             final textValue = textController.value.text;
-            debugPrint(textValue);
             textController.clear();
+            onValue(textValue);
           },
           icon: const Icon(
             Icons.send_outlined,
