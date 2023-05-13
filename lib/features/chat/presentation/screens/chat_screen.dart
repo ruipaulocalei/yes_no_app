@@ -45,6 +45,7 @@ class _ChatView extends StatelessWidget {
           children: [
             Expanded(
                 child: ListView.builder(
+                  controller: chatProvider.chatScrollController,
               physics: const BouncingScrollPhysics(),
               itemCount: chatProvider.messages.length,
               itemBuilder: (context, index) {
