@@ -18,7 +18,7 @@ class YesNoRepository implements IYesNoRepository {
     final response = await httpService.get(url: 'https://yesno.wtf/api');
     if(response.statusCode == 200){
       final body = jsonDecode(response.body);
-      final yesNoModel = YesNoModel.fromMap(response.body);
+      final yesNoModel = YesNoModel.fromJsonMap(response.body);
       return Message(text: yesNoModel.answer, fromWho:  FromWho.hers,imageUrl: yesNoModel.image);
       //debugPrint(body);
     } else if(response.statusCode == 404){
